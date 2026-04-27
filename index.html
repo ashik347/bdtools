@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BD Tools Pro - Free All Tools</title>
+    <meta name="monetag" content="c1aa13c9662ec8971a6eb26b9d1b7ef3">
+    <script src="https://quge5.com/88/tag.min.js" data-zone="234115" async data-cfasync="false"></script>
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:Arial;background:#0f172a;color:#fff;padding:10px}
+        .header{text-align:center;padding:20px;background:linear-gradient(90deg,#7c3aed,#db2777);border-radius:10px;margin-bottom:20px}
+        .tools{display:grid;gap:15px}
+        .tool{background:#1e293b;padding:20px;border-radius:10px;border:1px solid #334155}
+        .tool h3{color:#22d3ee;margin-bottom:15px}
+        input,button,textarea{width:100%;padding:12px;margin:8px 0;border-radius:8px;border:none;font-size:16px}
+        input,textarea{background:#0f172a;color:#fff;border:1px solid #334155}
+        button{background:#7c3aed;color:#fff;font-weight:bold;cursor:pointer}
+        button:active{transform:scale(0.98)}
+        .result{background:#0f172a;padding:15px;border-radius:8px;margin-top:10px;border:1px solid #22d3ee}
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🔥 BD Tools Pro</h1>
+        <p>100% Free All-in-One Tools</p>
+    </div>
+    <div class="tools">
+        <div class="tool">
+            <h3>1. Age Calculator</h3>
+            <input type="date" id="birthdate">
+            <button onclick="calcAge()">Calculate Age</button>
+            <div class="result" id="ageResult">Result here...</div>
+        </div>
+        <div class="tool">
+            <h3>2. Password Generator</h3>
+            <input type="number" id="passLength" placeholder="Length" value="12">
+            <button onclick="genPass()">Generate Password</button>
+            <div class="result" id="passResult">Click generate...</div>
+        </div>
+        <div class="tool">
+            <h3>3. Word Counter</h3>
+            <textarea id="textInput" rows="4" placeholder="Paste text here..."></textarea>
+            <button onclick="countWords()">Count Words</button>
+            <div class="result" id="wordResult">Words: 0 | Characters: 0</div>
+        </div>
+    </div>
+<script>
+function calcAge(){
+    let birth = new Date(document.getElementById('birthdate').value);
+    let today = new Date();
+    let age = today.getFullYear() - birth.getFullYear();
+    let m = today.getMonth() - birth.getMonth();
+    if(m<0 || (m===0 && today.getDate()<birth.getDate())) age--;
+    document.getElementById('ageResult').innerText = `Your Age: ${age} years`;
+}
+function genPass(){
+    let len = document.getElementById('passLength').value;
+    let chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%";
+    let pass = "";
+    for(let i=0;i<len;i++) pass += chars.charAt(Math.floor(Math.random()*chars.length));
+    document.getElementById('passResult').innerText = pass;
+}
+function countWords(){
+    let text = document.getElementById('textInput').value.trim();
+    let words = text ? text.split(/\s+/).length : 0;
+    let chars = text.length;
+    document.getElementById('wordResult').innerText = `Words: ${words} | Characters: ${chars}`;
+}
+</script>
+</body>
+</html>
