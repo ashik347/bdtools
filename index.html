@@ -1,27 +1,29 @@
 <!DOCTYPE html>
-<html lang="bn">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BD Tools Pro - Free Online Tools for Bangladesh</title>
-    <meta name="description" content="100% Free tools: Age Calculator, EMI Calculator, QR Code Generator, Password Generator, Word Counter">
+    <title>BD Tools Pro - 16 Free Online Tools | ১৬টি ফ্রি টুলস</title>
+    <meta name="description" content="100% Free: Age Calculator, EMI, BMI, QR Code, PDF Converter, Image Compressor, GST Calculator, Love Calculator">
     <meta name="monetag" content="c1aa13c9662ec8971a6eb26b9d1b7ef3">
     <script src="https://quge5.com/88/tag.min.js" data-zone="234115" async data-cfasync="false"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <style>
-        :root{
-            --bg:#f8fafc;--card:#ffffff;--primary:#2563eb;--primary-dark:#1e40af;
-            --text:#0f172a;--text-light:#64748b;--border:#e2e8f0;--success:#16a34a;
-        }
+        :root{--bg:#f8fafc;--card:#ffffff;--primary:#2563eb;--primary-dark:#1e40af;--text:#0f172a;--text-light:#64748b;--border:#e2e8f0;--success:#16a34a;--danger:#dc2626}
         *{margin:0;padding:0;box-sizing:border-box}
-        body{font-family:'Hind Siliguri',Arial,sans-serif;background:var(--bg);color:var(--text);line-height:1.6}
-        .container{max-width:1200px;margin:0 auto;padding:16px}
-        .header{background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:#fff;padding:24px 16px;text-align:center;margin-bottom:24px;box-shadow:0 4px 6px rgba(0,0,0,0.1)}
-        .header h1{font-size:28px;font-weight:700;margin-bottom:8px}
+        body{font-family:'Inter','Hind Siliguri',Arial,sans-serif;background:var(--bg);color:var(--text);line-height:1.6}
+        .container{max-width:1400px;margin:0 auto;padding:16px}
+        .header{background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:#fff;padding:24px 16px;text-align:center;margin-bottom:24px;box-shadow:0 4px 6px rgba(0,0,0,0.1);position:relative}
+        .lang-switch{position:absolute;top:16px;right:16px;background:rgba(255,255,255,0.2);border:1px solid rgba(255,255,255,0.3);color:#fff;padding:8px 16px;border-radius:20px;cursor:pointer;font-size:14px;font-weight:600}
+        .lang-switch:hover{background:rgba(255,255,255,0.3)}
+        .header h1{font-size:32px;font-weight:700;margin-bottom:8px}
         .header p{opacity:0.9;font-size:16px}
+        .stats{display:flex;justify-content:center;gap:24px;margin-top:16px;flex-wrap:wrap}
+        .stat{background:rgba(255,255,255,0.15);padding:8px 16px;border-radius:8px;font-size:14px}
         .category{margin-bottom:32px}
-        .category h2{font-size:20px;margin-bottom:16px;color:var(--primary-dark);border-left:4px solid var(--primary);padding-left:12px}
-        .tools-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:16px}
+        .category h2{font-size:22px;margin-bottom:16px;color:var(--primary-dark);border-left:4px solid var(--primary);padding-left:12px}
+        .tools-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px}
         .tool{background:var(--card);border-radius:12px;padding:20px;box-shadow:0 1px 3px rgba(0,0,0,0.1);border:1px solid var(--border);transition:transform 0.2s,box-shadow 0.2s}
         .tool:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,0.15)}
         .tool h3{font-size:18px;margin-bottom:16px;color:var(--text);display:flex;align-items:center;gap:8px}
@@ -32,88 +34,225 @@
         button{width:100%;padding:12px;background:var(--primary);color:#fff;border:none;border-radius:8px;font-size:16px;font-weight:600;cursor:pointer;transition:background 0.2s;margin-top:12px}
         button:hover{background:var(--primary-dark)}
         button:active{transform:scale(0.98)}
-        .result{margin-top:16px;padding:16px;background:#f1f5f9;border-radius:8px;border-left:4px solid var(--success);font-weight:500}
+        .btn-secondary{background:#64748b}
+        .btn-secondary:hover{background:#475569}
+        .result{margin-top:16px;padding:16px;background:#f1f5f9;border-radius:8px;border-left:4px solid var(--success);font-weight:500;word-break:break-word}
+        .result img{max-width:100%;border-radius:8px;margin-top:8px}
+        .file-input{position:relative;overflow:hidden;display:inline-block;width:100%}
+        .file-input input[type=file]{position:absolute;left:0;top:0;opacity:0;width:100%;height:100%;cursor:pointer}
+        .file-label{display:block;padding:12px;background:#f1f5f9;border:2px dashed var(--border);border-radius:8px;text-align:center;cursor:pointer}
         .footer{text-align:center;padding:24px;color:var(--text-light);font-size:14px;margin-top:40px;border-top:1px solid var(--border)}
-        @media(max-width:768px){.tools-grid{grid-template-columns:1fr}.header h1{font-size:24px}}
+        .bn{display:none}
+        body.bangla .en{display:none}
+        body.bangla .bn{display:block}
+        .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+        @media(max-width:768px){.tools-grid{grid-template-columns:1fr}.header h1{font-size:24px}.lang-switch{top:8px;right:8px}.grid-2{grid-template-columns:1fr}}
     </style>
 </head>
 <body>
     <div class="header">
         <div class="container">
+            <button class="lang-switch" onclick="toggleLang()">
+                <span class="en">বাংলা</span>
+                <span class="bn">English</span>
+            </button>
             <h1>🚀 BD Tools Pro</h1>
-            <p>বাংলাদেশের #1 ফ্রি অনলাইন টুলস কালেকশন</p>
+            <p class="en">16 Free Online Tools - No Registration Required</p>
+            <p class="bn">১৬টি ফ্রি অনলাইন টুলস - রেজিস্ট্রেশন লাগবে না</p>
+            <div class="stats">
+                <div class="stat"><span class="en">16 Tools</span><span class="bn">১৬টি টুল</span></div>
+                <div class="stat"><span class="en">100% Free</span><span class="bn">১০০% ফ্রি</span></div>
+                <div class="stat"><span class="en">No Ads</span><span class="bn">বিজ্ঞাপন নেই</span></div>
+            </div>
         </div>
     </div>
 
     <div class="container">
         <!-- Category 1: Calculator Tools -->
         <div class="category">
-            <h2>ক্যালকুলেটর টুলস</h2>
+            <h2 class="en">📊 Calculator Tools</h2>
+            <h2 class="bn">📊 ক্যালকুলেটর টুলস</h2>
             <div class="tools-grid">
-                <!-- Tool 1: Age Calculator -->
                 <div class="tool">
-                    <h3><span>🎂</span> বয়স ক্যালকুলেটর</h3>
-                    <label>জন্ম তারিখ সিলেক্ট করুন</label>
+                    <h3><span>🎂</span> <span class="en">Age Calculator</span><span class="bn">বয়স ক্যালকুলেটর</span></h3>
+                    <label class="en">Select Birth Date</label><label class="bn">জন্ম তারিখ সিলেক্ট করুন</label>
                     <input type="date" id="birthdate">
-                    <button onclick="calcAge()">বয়স বের করুন</button>
+                    <button onclick="calcAge()"><span class="en">Calculate Age</span><span class="bn">বয়স বের করুন</span></button>
                     <div class="result" id="ageResult" style="display:none"></div>
                 </div>
 
-                <!-- Tool 2: EMI Calculator -->
                 <div class="tool">
-                    <h3><span>💰</span> EMI ক্যালকুলেটর</h3>
-                    <label>লোনের পরিমাণ (টাকা)</label>
+                    <h3><span>💰</span> <span class="en">EMI Calculator</span><span class="bn">EMI ক্যালকুলেটর</span></h3>
+                    <label class="en">Loan Amount</label><label class="bn">লোনের পরিমাণ</label>
                     <input type="number" id="loanAmount" placeholder="500000">
-                    <label>সুদের হার (%)</label>
+                    <label class="en">Interest Rate (%)</label><label class="bn">সুদের হার (%)</label>
                     <input type="number" id="interestRate" placeholder="12">
-                    <label>সময় (বছর)</label>
+                    <label class="en">Time (Years)</label><label class="bn">সময় (বছর)</label>
                     <input type="number" id="loanTerm" placeholder="5">
-                    <button onclick="calcEMI()">EMI হিসাব করুন</button>
+                    <button onclick="calcEMI()"><span class="en">Calculate EMI</span><span class="bn">EMI হিসাব করুন</span></button>
                     <div class="result" id="emiResult" style="display:none"></div>
                 </div>
 
-                <!-- Tool 3: BMI Calculator -->
                 <div class="tool">
-                    <h3><span>⚖️</span> BMI ক্যালকুলেটর</h3>
-                    <label>ওজন (kg)</label>
+                    <h3><span>⚖️</span> <span class="en">BMI Calculator</span><span class="bn">BMI ক্যালকুলেটর</span></h3>
+                    <label class="en">Weight (kg)</label><label class="bn">ওজন (kg)</label>
                     <input type="number" id="weight" placeholder="70">
-                    <label>উচ্চতা (cm)</label>
+                    <label class="en">Height (cm)</label><label class="bn">উচ্চতা (cm)</label>
                     <input type="number" id="height" placeholder="170">
-                    <button onclick="calcBMI()">BMI চেক করুন</button>
+                    <button onclick="calcBMI()"><span class="en">Check BMI</span><span class="bn">BMI চেক করুন</span></button>
                     <div class="result" id="bmiResult" style="display:none"></div>
+                </div>
+
+                <div class="tool">
+                    <h3><span>💵</span> <span class="en">GST Calculator</span><span class="bn">জিএসটি ক্যালকুলেটর</span></h3>
+                    <label class="en">Amount</label><label class="bn">পরিমাণ</label>
+                    <input type="number" id="gstAmount" placeholder="1000">
+                    <label class="en">GST Rate (%)</label><label class="bn">GST হার (%)</label>
+                    <select id="gstRate">
+                        <option value="5">5%</option>
+                        <option value="12">12%</option>
+                        <option value="15" selected>15%</option>
+                        <option value="18">18%</option>
+                        <option value="28">28%</option>
+                    </select>
+                    <button onclick="calcGST()"><span class="en">Calculate GST</span><span class="bn">GST হিসাব করুন</span></button>
+                    <div class="result" id="gstResult" style="display:none"></div>
                 </div>
             </div>
         </div>
 
-        <!-- Category 2: Text Tools -->
+        <!-- Category 2: Text & Security Tools -->
         <div class="category">
-            <h2>টেক্সট টুলস</h2>
+            <h2 class="en">📝 Text & Security Tools</h2>
+            <h2 class="bn">📝 টেক্সট ও সিকিউরিটি টুলস</h2>
             <div class="tools-grid">
-                <!-- Tool 4: Word Counter -->
                 <div class="tool">
-                    <h3><span>📝</span> ওয়ার্ড কাউন্টার</h3>
-                    <label>আপনার টেক্সট পেস্ট করুন</label>
-                    <textarea id="textInput" rows="5" placeholder="এখানে লিখুন..."></textarea>
-                    <button onclick="countWords()">গণনা করুন</button>
+                    <h3><span>📝</span> <span class="en">Word Counter</span><span class="bn">ওয়ার্ড কাউন্টার</span></h3>
+                    <label class="en">Paste your text here</label><label class="bn">আপনার টেক্সট পেস্ট করুন</label>
+                    <textarea id="textInput" rows="5" placeholder="Type here..."></textarea>
+                    <button onclick="countWords()"><span class="en">Count Words</span><span class="bn">গণনা করুন</span></button>
                     <div class="result" id="wordResult" style="display:none"></div>
                 </div>
 
-                <!-- Tool 5: Password Generator -->
                 <div class="tool">
-                    <h3><span>🔐</span> পাসওয়ার্ড জেনারেটর</h3>
-                    <label>পাসওয়ার্ডের দৈর্ঘ্য</label>
+                    <h3><span>🔐</span> <span class="en">Password Generator</span><span class="bn">পাসওয়ার্ড জেনারেটর</span></h3>
+                    <label class="en">Password Length</label><label class="bn">পাসওয়ার্ডের দৈর্ঘ্য</label>
                     <input type="number" id="passLength" value="12" min="6" max="32">
-                    <button onclick="genPass()">জেনারেট করুন</button>
+                    <button onclick="genPass()"><span class="en">Generate Password</span><span class="bn">জেনারেট করুন</span></button>
                     <div class="result" id="passResult" style="display:none"></div>
                 </div>
 
-                <!-- Tool 6: QR Code Generator -->
                 <div class="tool">
-                    <h3><span>📱</span> QR কোড জেনারেটর</h3>
-                    <label>লিংক বা টেক্সট দিন</label>
+                    <h3><span>📱</span> <span class="en">QR Code Generator</span><span class="bn">QR কোড জেনারেটর</span></h3>
+                    <label class="en">Enter Link or Text</label><label class="bn">লিংক বা টেক্সট দিন</label>
                     <input type="text" id="qrText" placeholder="https://bdtools.is-a.dev">
-                    <button onclick="genQR()">QR কোড বানান</button>
+                    <button onclick="genQR()"><span class="en">Generate QR Code</span><span class="bn">QR কোড বানান</span></button>
                     <div class="result" id="qrResult" style="display:none;text-align:center"></div>
+                </div>
+
+                <div class="tool">
+                    <h3><span>💕</span> <span class="en">Love Calculator</span><span class="bn">লাভ ক্যালকুলেটর</span></h3>
+                    <label class="en">Your Name</label><label class="bn">আপনার নাম</label>
+                    <input type="text" id="name1" placeholder="Rahim">
+                    <label class="en">Partner Name</label><label class="bn">পার্টনারের নাম</label>
+                    <input type="text" id="name2" placeholder="Karima">
+                    <button onclick="calcLove()"><span class="en">Calculate Love %</span><span class="bn">লাভ % বের করুন</span></button>
+                    <div class="result" id="loveResult" style="display:none"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Category 3: Image & PDF Tools -->
+        <div class="category">
+            <h2 class="en">🖼️ Image & PDF Tools</h2>
+            <h2 class="bn">🖼️ ইমেজ ও PDF টুলস</h2>
+            <div class="tools-grid">
+                <div class="tool">
+                    <h3><span>📄</span> <span class="en">JPG to PDF</span><span class="bn">JPG থেকে PDF</span></h3>
+                    <label class="en">Select JPG Images</label><label class="bn">JPG ইমেজ সিলেক্ট করুন</label>
+                    <div class="file-input">
+                        <label class="file-label">
+                            <span class="en">Choose Files</span><span class="bn">ফাইল চুজ করুন</span>
+                            <input type="file" id="jpgFiles" accept="image/jpeg,image/jpg" multiple>
+                        </label>
+                    </div>
+                    <button onclick="convertToPDF()"><span class="en">Convert to PDF</span><span class="bn">PDF বানান</span></button>
+                    <div class="result" id="pdfResult" style="display:none"></div>
+                </div>
+
+                <div class="tool">
+                    <h3><span>🗜️</span> <span class="en">Image Compressor</span><span class="bn">ইমেজ কম্প্রেসর</span></h3>
+                    <label class="en">Select Image</label><label class="bn">ইমেজ সিলেক্ট করুন</label>
+                    <div class="file-input">
+                        <label class="file-label">
+                            <span class="en">Choose Image</span><span class="bn">ইমেজ চুজ করুন</span>
+                            <input type="file" id="compressImage" accept="image/*">
+                        </label>
+                    </div>
+                    <label class="en">Quality (10-100)</label><label class="bn">কোয়ালিটি (১০-১০০)</label>
+                    <input type="number" id="compressQuality" value="70" min="10" max="100">
+                    <button onclick="compressImg()"><span class="en">Compress Image</span><span class="bn">কম্প্রেস করুন</span></button>
+                    <div class="result" id="compressResult" style="display:none"></div>
+                </div>
+
+                <div class="tool">
+                    <h3><span>🖼️</span> <span class="en">YouTube Thumbnail Downloader</span><span class="bn">ইউটিউব থাম্বনেইল ডাউনলোডার</span></h3>
+                    <label class="en">YouTube Video URL</label><label class="bn">ইউটিউব ভিডিও লিংক</label>
+                    <input type="text" id="ytUrl" placeholder="https://youtube.com/watch?v=...">
+                    <button onclick="getThumbnail()"><span class="en">Get Thumbnail</span><span class="bn">থাম্বনেইল নিন</span></button>
+                    <div class="result" id="ytResult" style="display:none"></div>
+                </div>
+
+                <div class="tool">
+                    <h3><span>🎨</span> <span class="en">Color Picker</span><span class="bn">কালার পিকার</span></h3>
+                    <label class="en">Pick a Color</label><label class="bn">কালার পিক করুন</label>
+                    <input type="color" id="colorPicker" value="#2563eb" style="height:60px">
+                    <button onclick="copyColor()"><span class="en">Copy HEX Code</span><span class="bn">HEX কোড কপি করুন</span></button>
+                    <div class="result" id="colorResult" style="display:none"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Category 4: Converter Tools -->
+        <div class="category">
+            <h2 class="en">🔄 Converter Tools</h2>
+            <h2 class="bn">🔄 কনভার্টার টুলস</h2>
+            <div class="tools-grid">
+                <div class="tool">
+                    <h3><span>🌡️</span> <span class="en">Temperature Converter</span><span class="bn">তাপমাত্রা কনভার্টার</span></h3>
+                    <div class="grid-2">
+                        <div>
+                            <label class="en">Celsius</label><label class="bn">সেলসিয়াস</label>
+                            <input type="number" id="celsius" placeholder="0" oninput="convertTemp('c')">
+                        </div>
+                        <div>
+                            <label class="en">Fahrenheit</label><label class="bn">ফারেনহাইট</label>
+                            <input type="number" id="fahrenheit" placeholder="32" oninput="convertTemp('f')">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tool">
+                    <h3><span>📏</span> <span class="en">Length Converter</span><span class="bn">দৈর্ঘ্য কনভার্টার</span></h3>
+                    <label class="en">Meters</label><label class="bn">মিটার</label>
+                    <input type="number" id="meters" placeholder="1" oninput="convertLength('m')">
+                    <label class="en">Feet</label><label class="bn">ফুট</label>
+                    <input type="number" id="feet" placeholder="3.28" oninput="convertLength('f')">
+                </div>
+
+                <div class="tool">
+                    <h3><span>⚖️</span> <span class="en">Weight Converter</span><span class="bn">ওজন কনভার্টার</span></h3>
+                    <label class="en">Kilograms</label><label class="bn">কিলোগ্রাম</label>
+                    <input type="number" id="kg" placeholder="1" oninput="convertWeight('kg')">
+                    <label class="en">Pounds</label><label class="bn">পাউন্ড</label>
+                    <input type="number" id="lbs" placeholder="2.20" oninput="convertWeight('lbs')">
+                </div>
+
+                <div class="tool">
+                    <h3><span>⏰</span> <span class="en">Time Zone Converter</span><span class="bn">টাইম জোন কনভার্টার</span></h3>
+                    <label class="en">Bangladesh Time (BST)</label><label class="bn">বাংলাদেশ সময়</label>
+                    <input type="time" id="bdTime" oninput="convertTimeZone()">
+                    <div class="result" id="timeResult" style="display:none"></div>
                 </div>
             </div>
         </div>
@@ -121,13 +260,22 @@
 
     <div class="footer">
         <div class="container">
-            <p>© 2026 BD Tools Pro | Made with ❤️ in Bangladesh</p>
-            <p>100% Free Forever | No Registration Required</p>
+            <p class="en">© 2026 BD Tools Pro | Made with ❤️ in Bangladesh | 16 Free Tools</p>
+            <p class="bn">© 2026 BD Tools Pro | বাংলাদেশে ❤️ দিয়ে তৈরি | ১৬টি ফ্রি টুল</p>
+            <p class="en">100% Free Forever | No Registration | No Watermark</p>
+            <p class="bn">১০০% ফ্রি ফরেভার | রেজিস্ট্রেশন নেই | ওয়াটারমার্ক নেই</p>
         </div>
     </div>
 
 <script>
-// Age Calculator
+let isEnglish = true;
+function toggleLang(){
+    isEnglish = !isEnglish;
+    document.body.classList.toggle('bangla', !isEnglish);
+    localStorage.setItem('lang', isEnglish ? 'en' : 'bn');
+}
+if(localStorage.getItem('lang') === 'bn'){isEnglish = false;document.body.classList.add('bangla');}
+
 function calcAge(){
     let birth = new Date(document.getElementById('birthdate').value);
     if(!birth.getTime()) return;
@@ -137,10 +285,9 @@ function calcAge(){
     if(m<0 || (m===0 && today.getDate()<birth.getDate())) age--;
     let res = document.getElementById('ageResult');
     res.style.display='block';
-    res.innerHTML = `আপনার বয়স: <strong>${age} বছর</strong>`;
+    res.innerHTML = isEnglish ? `Your Age: <strong>${age} years</strong>` : `আপনার বয়স: <strong>${age} বছর</strong>`;
 }
 
-// EMI Calculator
 function calcEMI(){
     let p = parseFloat(document.getElementById('loanAmount').value);
     let r = parseFloat(document.getElementById('interestRate').value)/12/100;
@@ -149,51 +296,15 @@ function calcEMI(){
     let emi = (p*r*Math.pow(1+r,n))/(Math.pow(1+r,n)-1);
     let res = document.getElementById('emiResult');
     res.style.display='block';
-    res.innerHTML = `মাসিক EMI: <strong>৳${Math.round(emi).toLocaleString()}</strong><br>মোট পরিশোধ: ৳${Math.round(emi*n).toLocaleString()}`;
+    res.innerHTML = isEnglish 
+        ? `Monthly EMI: <strong>$${Math.round(emi).toLocaleString()}</strong><br>Total: $${Math.round(emi*n).toLocaleString()}`
+        : `মাসিক EMI: <strong>৳${Math.round(emi).toLocaleString()}</strong><br>মোট: ৳${Math.round(emi*n).toLocaleString()}`;
 }
 
-// BMI Calculator
 function calcBMI(){
     let w = parseFloat(document.getElementById('weight').value);
     let h = parseFloat(document.getElementById('height').value)/100;
     if(!w||!h) return;
     let bmi = w/(h*h);
-    let status = bmi<18.5?'কম ওজন':bmi<25?'স্বাভাবিক':bmi<30?'অতিরিক্ত ওজন':'মোটা';
-    let res = document.getElementById('bmiResult');
-    res.style.display='block';
-    res.innerHTML = `আপনার BMI: <strong>${bmi.toFixed(1)}</strong><br>স্ট্যাটাস: ${status}`;
-}
-
-// Word Counter
-function countWords(){
-    let text = document.getElementById('textInput').value.trim();
-    let words = text ? text.split(/\s+/).length : 0;
-    let chars = text.length;
-    let res = document.getElementById('wordResult');
-    res.style.display='block';
-    res.innerHTML = `শব্দ: <strong>${words}</strong> | অক্ষর: <strong>${chars}</strong> | লাইন: <strong>${text.split('\n').length}</strong>`;
-}
-
-// Password Generator
-function genPass(){
-    let len = document.getElementById('passLength').value;
-    let chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*";
-    let pass = "";
-    for(let i=0;i<len;i++) pass += chars.charAt(Math.floor(Math.random()*chars.length));
-    let res = document.getElementById('passResult');
-    res.style.display='block';
-    res.innerHTML = `<strong style="word-break:break-all">${pass}</strong><br><small>ক্লিক করে কপি করুন</small>`;
-    res.onclick = ()=>{navigator.clipboard.writeText(pass);res.innerHTML+='<br>✅ কপি হয়েছে!'}
-}
-
-// QR Code Generator
-function genQR(){
-    let text = document.getElementById('qrText').value;
-    if(!text) return;
-    let res = document.getElementById('qrResult');
-    res.style.display='block';
-    res.innerHTML = `<img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(text)}" style="max-width:200px">`;
-}
-</script>
-</body>
-</html>
+    let statusEn = bmi<18.5?'Underweight':bmi<25?'Normal':bmi<30?'Overweight':'Obese';
+    let sta
