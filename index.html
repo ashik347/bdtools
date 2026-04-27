@@ -3,69 +3,196 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BD Tools Pro - Free All Tools</title>
+    <title>BD Tools Pro - Free Online Tools for Bangladesh</title>
+    <meta name="description" content="100% Free tools: Age Calculator, EMI Calculator, QR Code Generator, Password Generator, Word Counter">
     <meta name="monetag" content="c1aa13c9662ec8971a6eb26b9d1b7ef3">
     <script src="https://quge5.com/88/tag.min.js" data-zone="234115" async data-cfasync="false"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        :root{
+            --bg:#f8fafc;--card:#ffffff;--primary:#2563eb;--primary-dark:#1e40af;
+            --text:#0f172a;--text-light:#64748b;--border:#e2e8f0;--success:#16a34a;
+        }
         *{margin:0;padding:0;box-sizing:border-box}
-        body{font-family:Arial;background:#0f172a;color:#fff;padding:10px}
-        .header{text-align:center;padding:20px;background:linear-gradient(90deg,#7c3aed,#db2777);border-radius:10px;margin-bottom:20px}
-        .tools{display:grid;gap:15px}
-        .tool{background:#1e293b;padding:20px;border-radius:10px;border:1px solid #334155}
-        .tool h3{color:#22d3ee;margin-bottom:15px}
-        input,button,textarea{width:100%;padding:12px;margin:8px 0;border-radius:8px;border:none;font-size:16px}
-        input,textarea{background:#0f172a;color:#fff;border:1px solid #334155}
-        button{background:#7c3aed;color:#fff;font-weight:bold;cursor:pointer}
+        body{font-family:'Hind Siliguri',Arial,sans-serif;background:var(--bg);color:var(--text);line-height:1.6}
+        .container{max-width:1200px;margin:0 auto;padding:16px}
+        .header{background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:#fff;padding:24px 16px;text-align:center;margin-bottom:24px;box-shadow:0 4px 6px rgba(0,0,0,0.1)}
+        .header h1{font-size:28px;font-weight:700;margin-bottom:8px}
+        .header p{opacity:0.9;font-size:16px}
+        .category{margin-bottom:32px}
+        .category h2{font-size:20px;margin-bottom:16px;color:var(--primary-dark);border-left:4px solid var(--primary);padding-left:12px}
+        .tools-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:16px}
+        .tool{background:var(--card);border-radius:12px;padding:20px;box-shadow:0 1px 3px rgba(0,0,0,0.1);border:1px solid var(--border);transition:transform 0.2s,box-shadow 0.2s}
+        .tool:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,0.15)}
+        .tool h3{font-size:18px;margin-bottom:16px;color:var(--text);display:flex;align-items:center;gap:8px}
+        .tool h3 span{font-size:24px}
+        label{display:block;font-size:14px;font-weight:500;margin-bottom:6px;color:var(--text-light)}
+        input,select,textarea{width:100%;padding:12px;border:1px solid var(--border);border-radius:8px;font-size:16px;font-family:inherit;background:#fff;transition:border 0.2s}
+        input:focus,select:focus,textarea:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 3px rgba(37,99,235,0.1)}
+        button{width:100%;padding:12px;background:var(--primary);color:#fff;border:none;border-radius:8px;font-size:16px;font-weight:600;cursor:pointer;transition:background 0.2s;margin-top:12px}
+        button:hover{background:var(--primary-dark)}
         button:active{transform:scale(0.98)}
-        .result{background:#0f172a;padding:15px;border-radius:8px;margin-top:10px;border:1px solid #22d3ee}
+        .result{margin-top:16px;padding:16px;background:#f1f5f9;border-radius:8px;border-left:4px solid var(--success);font-weight:500}
+        .footer{text-align:center;padding:24px;color:var(--text-light);font-size:14px;margin-top:40px;border-top:1px solid var(--border)}
+        @media(max-width:768px){.tools-grid{grid-template-columns:1fr}.header h1{font-size:24px}}
     </style>
 </head>
 <body>
     <div class="header">
-        <h1>🔥 BD Tools Pro</h1>
-        <p>100% Free All-in-One Tools</p>
-    </div>
-    <div class="tools">
-        <div class="tool">
-            <h3>1. Age Calculator</h3>
-            <input type="date" id="birthdate">
-            <button onclick="calcAge()">Calculate Age</button>
-            <div class="result" id="ageResult">Result here...</div>
-        </div>
-        <div class="tool">
-            <h3>2. Password Generator</h3>
-            <input type="number" id="passLength" placeholder="Length" value="12">
-            <button onclick="genPass()">Generate Password</button>
-            <div class="result" id="passResult">Click generate...</div>
-        </div>
-        <div class="tool">
-            <h3>3. Word Counter</h3>
-            <textarea id="textInput" rows="4" placeholder="Paste text here..."></textarea>
-            <button onclick="countWords()">Count Words</button>
-            <div class="result" id="wordResult">Words: 0 | Characters: 0</div>
+        <div class="container">
+            <h1>🚀 BD Tools Pro</h1>
+            <p>বাংলাদেশের #1 ফ্রি অনলাইন টুলস কালেকশন</p>
         </div>
     </div>
+
+    <div class="container">
+        <!-- Category 1: Calculator Tools -->
+        <div class="category">
+            <h2>ক্যালকুলেটর টুলস</h2>
+            <div class="tools-grid">
+                <!-- Tool 1: Age Calculator -->
+                <div class="tool">
+                    <h3><span>🎂</span> বয়স ক্যালকুলেটর</h3>
+                    <label>জন্ম তারিখ সিলেক্ট করুন</label>
+                    <input type="date" id="birthdate">
+                    <button onclick="calcAge()">বয়স বের করুন</button>
+                    <div class="result" id="ageResult" style="display:none"></div>
+                </div>
+
+                <!-- Tool 2: EMI Calculator -->
+                <div class="tool">
+                    <h3><span>💰</span> EMI ক্যালকুলেটর</h3>
+                    <label>লোনের পরিমাণ (টাকা)</label>
+                    <input type="number" id="loanAmount" placeholder="500000">
+                    <label>সুদের হার (%)</label>
+                    <input type="number" id="interestRate" placeholder="12">
+                    <label>সময় (বছর)</label>
+                    <input type="number" id="loanTerm" placeholder="5">
+                    <button onclick="calcEMI()">EMI হিসাব করুন</button>
+                    <div class="result" id="emiResult" style="display:none"></div>
+                </div>
+
+                <!-- Tool 3: BMI Calculator -->
+                <div class="tool">
+                    <h3><span>⚖️</span> BMI ক্যালকুলেটর</h3>
+                    <label>ওজন (kg)</label>
+                    <input type="number" id="weight" placeholder="70">
+                    <label>উচ্চতা (cm)</label>
+                    <input type="number" id="height" placeholder="170">
+                    <button onclick="calcBMI()">BMI চেক করুন</button>
+                    <div class="result" id="bmiResult" style="display:none"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Category 2: Text Tools -->
+        <div class="category">
+            <h2>টেক্সট টুলস</h2>
+            <div class="tools-grid">
+                <!-- Tool 4: Word Counter -->
+                <div class="tool">
+                    <h3><span>📝</span> ওয়ার্ড কাউন্টার</h3>
+                    <label>আপনার টেক্সট পেস্ট করুন</label>
+                    <textarea id="textInput" rows="5" placeholder="এখানে লিখুন..."></textarea>
+                    <button onclick="countWords()">গণনা করুন</button>
+                    <div class="result" id="wordResult" style="display:none"></div>
+                </div>
+
+                <!-- Tool 5: Password Generator -->
+                <div class="tool">
+                    <h3><span>🔐</span> পাসওয়ার্ড জেনারেটর</h3>
+                    <label>পাসওয়ার্ডের দৈর্ঘ্য</label>
+                    <input type="number" id="passLength" value="12" min="6" max="32">
+                    <button onclick="genPass()">জেনারেট করুন</button>
+                    <div class="result" id="passResult" style="display:none"></div>
+                </div>
+
+                <!-- Tool 6: QR Code Generator -->
+                <div class="tool">
+                    <h3><span>📱</span> QR কোড জেনারেটর</h3>
+                    <label>লিংক বা টেক্সট দিন</label>
+                    <input type="text" id="qrText" placeholder="https://bdtools.is-a.dev">
+                    <button onclick="genQR()">QR কোড বানান</button>
+                    <div class="result" id="qrResult" style="display:none;text-align:center"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <div class="container">
+            <p>© 2026 BD Tools Pro | Made with ❤️ in Bangladesh</p>
+            <p>100% Free Forever | No Registration Required</p>
+        </div>
+    </div>
+
 <script>
+// Age Calculator
 function calcAge(){
     let birth = new Date(document.getElementById('birthdate').value);
+    if(!birth.getTime()) return;
     let today = new Date();
     let age = today.getFullYear() - birth.getFullYear();
     let m = today.getMonth() - birth.getMonth();
     if(m<0 || (m===0 && today.getDate()<birth.getDate())) age--;
-    document.getElementById('ageResult').innerText = `Your Age: ${age} years`;
+    let res = document.getElementById('ageResult');
+    res.style.display='block';
+    res.innerHTML = `আপনার বয়স: <strong>${age} বছর</strong>`;
 }
-function genPass(){
-    let len = document.getElementById('passLength').value;
-    let chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%";
-    let pass = "";
-    for(let i=0;i<len;i++) pass += chars.charAt(Math.floor(Math.random()*chars.length));
-    document.getElementById('passResult').innerText = pass;
+
+// EMI Calculator
+function calcEMI(){
+    let p = parseFloat(document.getElementById('loanAmount').value);
+    let r = parseFloat(document.getElementById('interestRate').value)/12/100;
+    let n = parseFloat(document.getElementById('loanTerm').value)*12;
+    if(!p||!r||!n) return;
+    let emi = (p*r*Math.pow(1+r,n))/(Math.pow(1+r,n)-1);
+    let res = document.getElementById('emiResult');
+    res.style.display='block';
+    res.innerHTML = `মাসিক EMI: <strong>৳${Math.round(emi).toLocaleString()}</strong><br>মোট পরিশোধ: ৳${Math.round(emi*n).toLocaleString()}`;
 }
+
+// BMI Calculator
+function calcBMI(){
+    let w = parseFloat(document.getElementById('weight').value);
+    let h = parseFloat(document.getElementById('height').value)/100;
+    if(!w||!h) return;
+    let bmi = w/(h*h);
+    let status = bmi<18.5?'কম ওজন':bmi<25?'স্বাভাবিক':bmi<30?'অতিরিক্ত ওজন':'মোটা';
+    let res = document.getElementById('bmiResult');
+    res.style.display='block';
+    res.innerHTML = `আপনার BMI: <strong>${bmi.toFixed(1)}</strong><br>স্ট্যাটাস: ${status}`;
+}
+
+// Word Counter
 function countWords(){
     let text = document.getElementById('textInput').value.trim();
     let words = text ? text.split(/\s+/).length : 0;
     let chars = text.length;
-    document.getElementById('wordResult').innerText = `Words: ${words} | Characters: ${chars}`;
+    let res = document.getElementById('wordResult');
+    res.style.display='block';
+    res.innerHTML = `শব্দ: <strong>${words}</strong> | অক্ষর: <strong>${chars}</strong> | লাইন: <strong>${text.split('\n').length}</strong>`;
+}
+
+// Password Generator
+function genPass(){
+    let len = document.getElementById('passLength').value;
+    let chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*";
+    let pass = "";
+    for(let i=0;i<len;i++) pass += chars.charAt(Math.floor(Math.random()*chars.length));
+    let res = document.getElementById('passResult');
+    res.style.display='block';
+    res.innerHTML = `<strong style="word-break:break-all">${pass}</strong><br><small>ক্লিক করে কপি করুন</small>`;
+    res.onclick = ()=>{navigator.clipboard.writeText(pass);res.innerHTML+='<br>✅ কপি হয়েছে!'}
+}
+
+// QR Code Generator
+function genQR(){
+    let text = document.getElementById('qrText').value;
+    if(!text) return;
+    let res = document.getElementById('qrResult');
+    res.style.display='block';
+    res.innerHTML = `<img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(text)}" style="max-width:200px">`;
 }
 </script>
 </body>
