@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>সব সিমের USSD কোড - BDTools</title>
+    <style>
+        body { font-family: 'SolaimanLipi', Arial, sans-serif; background: #f5f5f5; padding: 20px; margin: 0; }
+        .container { max-width: 800px; margin: auto; }
+        h1 { color: #006a4e; text-align: center; margin-bottom: 30px; }
+        .sim-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+        .sim-card { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        .sim-name { font-size: 22px; font-weight: bold; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 2px solid #eee; }
+        .gp { color: #0066cc; border-bottom-color: #0066cc; }
+        .robi { color: #e60000; border-bottom-color: #e60000; }
+        .banglalink { color: #ff6600; border-bottom-color: #ff6600; }
+        .teletalk { color: #006a4e; border-bottom-color: #006a4e; }
+        .airtel { color: #ed1c24; border-bottom-color: #ed1c24; }
+        .code-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #f0f0f0; }
+        .code-row:last-child { border-bottom: none; }
+        .code-name { color: #333; font-size: 15px; }
+        .code { background: #f5f5f5; padding: 6px 12px; border-radius: 6px; font-family: monospace; font-weight: bold; color: #006a4e; cursor: pointer; }
+        .code:hover { background: #006a4e; color: white; }
+        .toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: #333; color: white; padding: 12px 20px; border-radius: 8px; display: none; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📱 সব সিমের USSD কোড</h1>
+        
+        <div class="sim-grid">
+            <!-- Grameenphone -->
+            <div class="sim-card">
+                <div class="sim-name gp">গ্রামীণফোন</div>
+                <div class="code-row"><span class="code-name">ব্যালেন্স চেক</span><span class="code" onclick="copyCode('*566#')">*</span>566#</span></div>
+                <div class="code-row"><span class="code-name">ইন্টারনেট ব্যালেন্স</span><span class="code" onclick="copyCode('*121*1*4#')">*</span>121*1*4#</span></div>
+                <div class="code-row"><span class="code-name">মিনিট চেক</span><span class="code" onclick="copyCode('*121*1*2#')">*</span>121*1*2#</span></div>
+                <div class="code-row"><span class="code-name">নিজের নাম্বার</span><span class="code" onclick="copyCode('*2#')">*</span>2#</span></div>
+                <div class="code-row"><span class="code-name">ইমার্জেন্সি ব্যালেন্স</span><span class="code" onclick="copyCode('*121*1*3*1#')">*</span>121*1*3*1#</span></div>
+                <div class="code-row"><span class="code-name">কাস্টমার কেয়ার</span><span class="code" onclick="copyCode('121')">*</span>121</span></div>
+            </div>
+
+            <!-- Robi -->
+            <div class="sim-card">
+                <div class="sim-name robi">রবি</div>
+                <div class="code-row"><span class="code-name">ব্যালেন্স চেক</span><span class="code" onclick="copyCode('*222#')">*</span>222#</span></div>
+                <div class="code-row"><span class="code-name">ইন্টারনেট ব্যালেন্স</span><span class="code" onclick="copyCode('*3#')">*</span>3#</span></div>
+                <div class="code-row"><span class="code-name">মিনিট চেক</span><span class="code" onclick="copyCode('*222*3#')">*</span>222*3#</span></div>
+                <div class="code-row"><span class="code-name">নিজের নাম্বার</span><span class="code" onclick="copyCode('*140*2*4#')">*</span>140*2*4#</span></div>
+                <div class="code-row"><span class="code-name">ইমার্জেন্সি ব্যালেন্স</span><span class="code" onclick="copyCode('*8#')">*</span>8#</span></div>
+                <div class="code-row"><span class="code-name">কাস্টমার কেয়ার</span><span class="code" onclick="copyCode('123')">*</span>123</span></div>
+            </div>
+
+            <!-- Banglalink -->
+            <div class="sim-card">
+                <div class="sim-name banglalink">বাংলালিংক</div>
+                <div class="code-row"><span class="code-name">ব্যালেন্স চেক</span><span class="code" onclick="copyCode('*124#')">*</span>124#</span></div>
+                <div class="code-row"><span class="code-name">ইন্টারনেট ব্যালেন্স</span><span class="code" onclick="copyCode('*124*5#')">*</span>124*5#</span></div>
+                <div class="code-row"><span class="code-name">মিনিট চেক</span><span class="code" onclick="copyCode('*124*2#')">*</span>124*2#</span></div>
+                <div class="code-row"><span class="code-name">নিজের নাম্বার</span><span class="code" onclick="copyCode('*511#')">*</span>511#</span></div>
+                <div class="code-row"><span class="code-name">ইমার্জেন্সি ব্যালেন্স</span><span class="code" onclick="copyCode('*874#')">*</span>874#</span></div>
+                <div class="code-row"><span class="code-name">কাস্টমার কেয়ার</span><span class="code" onclick="copyCode('121')">*</span>121</span></div>
+            </div>
+
+            <!-- Teletalk -->
+            <div class="sim-card">
+                <div class="sim-name teletalk">টেলিটক</div>
+                <div class="code-row"><span class="code-name">ব্যালেন্স চেক</span><span class="code" onclick="copyCode('*152#')">*</span>152#</span></div>
+                <div class="code-row"><span class="code-name">ইন্টারনেট ব্যালেন্স</span><span class="code" onclick="copyCode('*152#')">*</span>152#</span></div>
+                <div class="code-row"><span class="code-name">মিনিট চেক</span><span class="code" onclick="copyCode('*152#')">*</span>152#</span></div>
+                <div class="code-row"><span class="code-name">নিজের নাম্বার</span><span class="code" onclick="copyCode('*551#')">*</span>551#</span></div>
+                <div class="code-row"><span class="code-name">ইমার্জেন্সি ব্যালেন্স</span><span class="code" onclick="copyCode('*1122#')">*</span>1122#</span></div>
+                <div class="code-row"><span class="code-name">কাস্টমার কেয়ার</span><span class="code" onclick="copyCode('121')">*</span>121</span></div>
+            </div>
+
+            <!-- Airtel -->
+            <div class="sim-card">
+                <div class="sim-name airtel">এয়ারটেল</div>
+                <div class="code-row"><span class="code-name">ব্যালেন্স চেক</span><span class="code" onclick="copyCode('*778#')">*</span>778#</span></div>
+                <div class="code-row"><span class="code-name">ইন্টারনেট ব্যালেন্স</span><span class="code" onclick="copyCode('*3#')">*</span>3#</span></div>
+                <div class="code-row"><span class="code-name">মিনিট চেক</span><span class="code" onclick="copyCode('*778*5#')">*</span>778*5#</span></div>
+                <div class="code-row"><span class="code-name">নিজের নাম্বার</span><span class="code" onclick="copyCode('*121*6*3#')">*</span>121*6*3#</span></div>
+                <div class="code-row"><span class="code-name">ইমার্জেন্সি ব্যালেন্স</span><span class="code" onclick="copyCode('*141#')">*</span>141#</span></div>
+                <div class="code-row"><span class="code-name">কাস্টমার কেয়ার</span><span class="code" onclick="copyCode('786')">*</span>786</span></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="toast" id="toast">কোড কপি হয়েছে!</div>
+
+    <script>
+        function copyCode(code) {
+            navigator.clipboard.writeText(code).then(() => {
+                const toast = document.getElementById('toast');
+                toast.textContent = code + ' কপি হয়েছে!';
+                toast.style.display = 'block';
+                setTimeout(() => { toast.style.display = 'none'; }, 2000);
+            });
+        }
+    </script>
+</body>
+</html>
