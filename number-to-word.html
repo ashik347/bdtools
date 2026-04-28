@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>নাম্বার টু ওয়ার্ড - BDTools</title>
+    <style>
+        body { font-family: 'SolaimanLipi', Arial, sans-serif; background: #f5f5f5; padding: 20px; }
+       .container { max-width: 600px; margin: auto; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        h1 { color: #006a4e; text-align: center; margin-bottom: 10px; }
+       .subtitle { text-align: center; color: #666; margin-bottom: 25px; font-size: 14px; }
+        input { padding: 14px; font-size: 18px; border: 2px solid #ddd; border-radius: 8px; width: 100%; margin: 10px 0; box-sizing: border-box; text-align: center; }
+        input:focus { border-color: #006a4e; outline: none; }
+        button { background: #006a4e; color: white; border: none; padding: 14px; border-radius: 8px; font-size: 16px; cursor: pointer; width: 100%; font-weight: bold; }
+        button:hover { background: #005540; }
+       .result-box { margin-top: 25px; }
+       .lang-box { background: #f8f9fa; padding: 20px; border-radius: 10px; margin: 15px 0; border-left: 4px solid #006a4e; }
+       .lang-title { font-weight: bold; color: #006a4e; margin-bottom: 10px; font-size: 16px; }
+       .word-text { font-size: 18px; color: #333; line-height: 1.6; }
+       .copy-btn { background: #e8f5e9; color: #006a4e; border: 1px solid #006a4e; padding: 6px 12px; border-radius: 6px; font-size: 13px; cursor: pointer; margin-top: 10px; }
+       .copy-btn:hover { background: #006a4e; color: white; }
+       .note { font-size: 13px; color: #856404; margin-top: 20px; padding: 12px; background: #fff3cd; border-radius: 6px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔢 নাম্বার টু ওয়ার্ড</h1>
+        <p class="subtitle">টাকা/সংখ্যা কথায় লিখুন - বাংলা ও ইংরেজি</p>
+
+        <input type="number" id="numberInput" placeholder="যেমন: 12500" oninput="this.value = this.value.slice(0, 15)">
+        <button onclick="convertNumber()">কনভার্ট করুন</button>
+
+        <div class="result-box" id="resultBox" style="display: none;">
+            <div class="lang-box">
+                <div class="lang-title">🇧🇩 বাংলায়:</div>
+                <div class="word-text" id="banglaWord"></div>
+                <button class="copy-btn" onclick="copyText('banglaWord')">কপি করুন</button>
+            </div>
+
+            <div class="lang-box">
+                <div class="lang-title">🇬🇧 English:</div>
+                <div class="word-text" id="englishWord"></div>
+                <button class="copy-btn" onclick="copyText('englishWord')">Copy</button>
+            </div>
+        </div>
+
+        <div class="note">
+            <b>💡 টিপস:</b> চেক, মানি রিসিট, জমি দলিল লেখার সময় এই টুল ইউজ করুন। সর্বোচ্চ 15 ডিজিট পর্যন্ত।
+        </div>
+    </div>
+
+    <script>
+        const onesBn = ['', 'এক', 'দুই', 'তিন', 'চার', 'পাঁচ', 'ছয়', 'সাত', 'আট', 'নয়'];
+        const onesEn = ['', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine'];
+        const teensEn = ['Ten', 'Eleven', 'Twelve', 'Thirteen', 'Fourteen', 'Fifteen', 'Sixteen', 'Seventeen', 'Eighteen', 'Nineteen'];
+        const tensBn = ['', '', 'বিশ', 'ত্রিশ', 'চল্লিশ', 'পঞ্চাশ', 'ষাট', 'সত্তর', 'আশি', 'নব্বই'];
+        const tensEn = ['', '', 'Twenty', 'Thirty', 'Forty', 'Fifty', 'Sixty', 'Seventy', 'Eighty', 'Ninety'];
+
+        function convertToBangla(num) {
+            if (num === 0) return 'শূন্য';
+            if (num < 10) return onesBn[num];
+            if (num < 20) {
+                const map = {10:'দশ',11:'এগারো',12:'বারো',13:'তেরো',14:'চৌদ্দ',15:'পনেরো',16:'ষোল',17:'সতেরো',18:'আঠারো',19:'উনিশ'};
+                return map[num];
+            }
+            if (num < 100) return tensBn[Math.floor(num/10)] + (num%10? ' ' + onesBn[num%10] : '');
+            if (num < 1000) return onesBn[Math.floor(num/100)] + ' শত' + (num%100? ' ' + convertToBangla(num%100) : '');
+            if (num < 100000) return convertToBangla(Math.floor(num/1000)) + ' হাজার' + (num%1000? ' ' + convertToBangla(num%1000) : '');
+            if (num < 10000000) return convertToBangla(Math.floor(num/100000)) + ' লক্ষ' + (num%100000? ' ' + convertToBangla(num%100000) : '');
+            return convertToBangla(Math.floor(num/10000000)) + ' কোটি' + (num%10000000? ' ' + convertToBangla(num%10000000) : '');
+        }
+
+        function convertToEnglish(num) {
+            if (num === 0) return 'Zero';
+            if (num < 10) return onesEn[num];
+            if (num < 20) return teensEn[num-10];
+            if (num < 100) return tensEn[Math.floor(num/10)] + (num%10? ' ' + onesEn[num%10] : '');
+            if (num < 1000) return onesEn[Math.floor(num/100)] + ' Hundred' + (num%100? ' ' + convertToEnglish(num%100) : '');
+            if (num < 1000000) return convertToEnglish(Math.floor(num/1000)) + ' Thousand' + (num%1000? ' ' + convertToEnglish(num%1000) : '');
+            if (num < 1000000000) return convertToEnglish(Math.floor(num/1000000)) + ' Million' + (num%1000000? ' ' + convertToEnglish(num%1000000) : '');
+            return convertToEnglish(Math.floor(num/1000000000)) + ' Billion' + (num%1000000000? ' ' + convertToEnglish(num%1000000000) : '');
+        }
+
+        function convertNumber() {
+            const num = parseInt(document.getElementById('numberInput').value);
+            if (!num || num < 0) {
+                alert('সঠিক সংখ্যা লিখুন');
+                return;
+            }
+            if (num > 999999999999999) {
+                alert('সংখ্যা অনেক বড়! 15 ডিজিটের কম লিখুন');
+                return;
+            }
+
+            document.getElementById('banglaWord').textContent = convertToBangla(num) + ' টাকা মাত্র';
+            document.getElementById('englishWord').textContent = convertToEnglish(num) + ' Taka Only';
+            document.getElementById('resultBox').style.display = 'block';
+        }
+
+        function copyText(id) {
+            const text = document.getElementById(id).textContent;
+            navigator.clipboard.writeText(text).then(() => {
+                alert('কপি হয়ে গেছে!');
+            });
+        }
+
+        // Enter প্রেস করলে কনভার্ট হবে
+        document.getElementById('numberInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') convertNumber();
+        });
+    </script>
+</body>
+</html>
