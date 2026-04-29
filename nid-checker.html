@@ -1,111 +1,119 @@
 <!DOCTYPE html>
 <html lang="bn">
 <head>
-  <meta charset="UTF-8">
-  <title>NID যাচাই করুন - BD Tools Pro</title>
-  <meta name="description" content="বাংলাদেশী NID নম্বর দিয়ে জেলা ও জন্মসাল যাচাই করুন">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <style>
-    body { font-family: 'SolaimanLipi', Arial, sans-serif; background: #f5f5f5; padding: 20px; margin: 0; }
-   .container { max-width: 600px; margin: auto; background: white; padding: 30px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
-    h1 { color: #006a4e; text-align: center; margin-bottom: 10px; }
-    input { width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-size: 16px; margin: 15px 0; box-sizing: border-box; }
-    button { background: #006a4e; color: white; border: none; padding: 12px 24px; border-radius: 8px; cursor: pointer; width: 100%; font-size:16px; }
-    button:hover { background: #005540; }
-   .result { background: #e8f5e9; padding: 20px; border-radius: 10px; margin: 20px 0; display: none; }
-   .info-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #c8e6c9; }
-   .info-row:last-child { border-bottom: none; }
-   .label { font-weight: bold; color: #006a4e; }
-   .error { background: #ffebee; color: #c62828; padding: 15px; border-radius: 8px; margin: 15px 0; display: none; }
-   .note { background:#fff3cd; color:#856404; padding:15px; border-radius:8px; font-size:14px; margin-top:15px; }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NID যাচাই করুন</title>
+    <style>
+        body { font-family: 'SolaimanLipi', Arial, sans-serif; max-width: 600px; margin: 20px auto; padding: 20px; background: #f5f5f5; }
+       .container { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        h1 { text-align: center; color: #006a4e; }
+        input { width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-size: 16px; box-sizing: border-box; }
+        button { background: #006a4e; color: white; border: none; padding: 12px 24px; border-radius: 8px; cursor: pointer; width: 100%; font-size: 16px; margin-top: 10px; }
+        button:hover { background: #005540; }
+       .result { background: #e8f5e9; padding: 20px; border-radius: 10px; margin: 20px 0; display: none; }
+       .info-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #ddd; }
+       .info-row:last-child { border-bottom: none; }
+       .label { font-weight: bold; color: #006a4e; }
+       .error { background: #ffebee; color: #c62828; padding: 15px; border-radius: 8px; margin: 10px 0; display: none; }
+       .note { background:#fff3cd; color:#856404; padding:15px; border-radius:8px; font-size:14px; margin-top: 20px; }
+    </style>
 </head>
 <body>
-  <div class="container">
-    <h1>🪪 NID যাচাই করুন</h1>
-    <p style="text-align:center; color:#666;">10, 13 বা 17 ডিজিটের NID নম্বর দিয়ে তথ্য যাচাই করুন</p>
-    
-    <input type="text" id="nidInput" placeholder="NID নম্বর লিখুন" maxlength="17">
-    <button onclick="checkNID()">যাচাই করুন</button>
-    
-    <div id="result" class="result"></div>
-    <div id="error" class="error"></div>
-    
-    <div class="note">
-      <b>⚠️ গুরুত্বপূর্ণ:</b> এই টুল শুধুমাত্র NID নম্বরের ফরম্যাট যাচাই করে। 17 ডিজিটের Smart NID ছাড়া জন্মসাল দেখানো সম্ভব নয়। এটি নির্বাচন কমিশনের ডাটাবেজের সাথে যুক্ত নয়।
+    <div class="container">
+        <h1>🇧🇩 NID যাচাই করুন</h1>
+        <p style="text-align:center; color:#666;">10, 13 বা 17 ডিজিটের NID নম্বর দিয়ে তথ্য যাচাই করুন</p>
+
+        <input type="text" id="nidInput" placeholder="NID নম্বর লিখুন" maxlength="17">
+        <button onclick="checkNID()">যাচাই করুন</button>
+
+        <div id="result" class="result"></div>
+        <div id="error" class="error"></div>
+
+        <div class="note">
+            <b>⚠️ গুরুত্বপূর্ণ:</b> এই টুল শুধুমাত্র NID নম্বরের ফরম্যাট যাচাই করে। 13 ডিজিটের পুরাতন NID তে জেলা কোড ওভারল্যাপ থাকায় ফলাফল 100% সঠিক নাও হতে পারে। এটি নির্বাচন কমিশনের ডাটাবেজের সাথে যুক্ত নয়।
+        </div>
     </div>
-  </div>
 
-  <script>
-    // জেলা কোড লিস্ট
-    const districts = {
-      '01': 'বান্দরবান', '02': 'বরগুনা', '03': 'বগুড়া', '04': 'ব্রাহ্মণবাড়িয়া', '05': 'বাগেরহাট',
-      '06': 'বরিশাল', '07': 'ভোলা', '08': 'চাঁদপুর', '09': 'চট্টগ্রাম', '10': 'চুয়াডাঙ্গা',
-      '11': 'কুমিল্লা', '12': 'কক্সবাজার', '13': 'ঢাকা', '14': 'দিনাজপুর', '15': 'ফরিদপুর',
-      '16': 'ফেনী', '17': 'গাইবান্ধা', '18': 'গাজীপুর', '19': 'গোপালগঞ্জ', '20': 'হবিগঞ্জ',
-      '21': 'জামালপুর', '22': 'যশোর', '23': 'ঝালকাঠি', '24': 'ঝিনাইদহ', '25': 'জয়পুরহাট',
-      '26': 'খাগড়াছড়ি', '27': 'খুলনা', '28': 'কিশোরগঞ্জ', '29': 'কুড়িগ্রাম', '30': 'কুষ্টিয়া',
-      '31': 'লক্ষ্মীপুর', '32': 'লালমনিরহাট', '33': 'মাদারীপুর', '34': 'মাগুরা', '35': 'মানিকগঞ্জ',
-      '36': 'মেহেরপুর', '37': 'মৌলভীবাজার', '38': 'মুন্সিগঞ্জ', '39': 'ময়মনসিংহ', '40': 'নওগাঁ',
-      '41': 'নড়াইল', '42': 'নারায়ণগঞ্জ', '43': 'নরসিংদী', '44': 'নাটোর', '45': 'নবাবগঞ্জ',
-      '46': 'নেত্রকোণা', '47': 'নীলফামারী', '48': 'নোয়াখালী', '49': 'পাবনা', '50': 'পঞ্চগড়',
-      '51': 'পটুয়াখালী', '52': 'পিরোজপুর', '53': 'রাজবাড়ী', '54': 'রাজশাহী', '55': 'রাঙ্গামাটি',
-      '56': 'রংপুর', '57': 'সাতক্ষীরা', '58': 'শরীয়তপুর', '59': 'শেরপুর', '60': 'সিরাজগঞ্জ',
-      '61': 'সুনামগঞ্জ', '62': 'সিলেট', '63': 'টাঙ্গাইল', '64': 'ঠাকুরগাঁও'
-    };
+    <script>
+        // জেলা কোড লিস্ট - 64 জেলা
+        const districts = {
+            '01': 'বান্দরবান', '02': 'বরগুনা', '03': 'বগুড়া', '04': 'ব্রাহ্মণবাড়িয়া', '05': 'বাগেরহাট',
+            '06': 'বরিশাল', '07': 'ভোলা', '08': 'চাঁদপুর', '09': 'চট্টগ্রাম', '10': 'চুয়াডাঙ্গা',
+            '11': 'কুমিল্লা', '12': 'কক্সবাজার', '13': 'ঢাকা', '14': 'দিনাজপুর', '15': 'ফরিদপুর',
+            '16': 'ফেনী', '17': 'গাইবান্ধা', '18': 'গাজীপুর', '19': 'গোপালগঞ্জ', '20': 'হবিগঞ্জ',
+            '21': 'জামালপুর', '22': 'যশোর', '23': 'ঝালকাঠি', '24': 'ঝিনাইদহ', '25': 'জয়পুরহাট',
+            '26': 'খাগড়াছড়ি', '27': 'খুলনা', '28': 'কিশোরগঞ্জ', '29': 'কুড়িগ্রাম', '30': 'কুষ্টিয়া',
+            '31': 'লক্ষ্মীপুর', '32': 'লালমনিরহাট', '33': 'মাদারীপুর', '34': 'মাগুরা', '35': 'মানিকগঞ্জ',
+            '36': 'মেহেরপুর', '37': 'মৌলভীবাজার', '38': 'মুন্সিগঞ্জ', '39': 'ময়মনসিংহ', '40': 'নওগাঁ',
+            '41': 'নড়াইল', '42': 'নারায়ণগঞ্জ', '43': 'নরসিংদী', '44': 'নাটোর', '45': 'নবাবগঞ্জ',
+            '46': 'নেত্রকোনা', '47': 'নীলফামারী', '48': 'নোয়াখালী', '49': 'পাবনা', '50': 'পঞ্চগড়',
+            '51': 'পটুয়াখালী', '52': 'পিরোজপুর', '53': 'রাজবাড়ী', '54': 'রাজশাহী', '55': 'রাঙ্গামাটি',
+            '56': 'রংপুর', '57': 'সাতক্ষীরা', '58': 'শরীয়তপুর', '59': 'শেরপুর', '60': 'সিরাজগঞ্জ',
+            '61': 'সুনামগঞ্জ', '62': 'সিলেট', '63': 'টাঙ্গাইল', '64': 'ঠাকুরগাঁও'
+        };
 
-    function getDistrict(code) {
-      return districts[code] || 'অজানা জেলা';
-    }
+        // ওভারল্যাপ জেলা হ্যান্ডেল করার জন্য
+        function getDistrict(code, nidLength) {
+            // 13 ডিজিট পুরাতন NID এর জন্য স্পেশাল কেস
+            if(nidLength === 13) {
+                if(code === '46') return 'শেরপুর অথবা নেত্রকোনা';
+                if(code === '39') return 'জামালপুর/ময়মনসিংহ/শেরপুর';
+                if(code === '21') return 'জামালপুর/শেরপুর';
+                if(code === '59') return 'শেরপুর';
+            }
+            // 17 ডিজিট Smart NID এর জন্য একুরেট
+            return districts[code] || 'অজানা জেলা';
+        }
 
-    function checkNID() {
-      const nid = document.getElementById('nidInput').value.trim();
-      const resultDiv = document.getElementById('result');
-      const errorDiv = document.getElementById('error');
-      
-      resultDiv.style.display = 'none';
-      errorDiv.style.display = 'none';
-      
-      if (!/^\d+$/.test(nid)) {
-        errorDiv.textContent = 'শুধুমাত্র সংখ্যা দিন';
-        errorDiv.style.display = 'block';
-        return;
-      }
-      
-      let html = '<div class="info-row"><span class="label">✅ ফরম্যাট:</span><span>সঠিক</span></div>';
-      let districtCode = '';
-      
-      if (nid.length === 17) {
-        const year = nid.substring(0, 4);
-        districtCode = nid.substring(4, 6);
-        const currentYear = new Date().getFullYear();
-        const age = currentYear - parseInt(year);
-        html += `<div class="info-row"><span class="label">📄 NID টাইপ:</span><span>Smart NID Card</span></div>`;
-        html += `<div class="info-row"><span class="label">📍 জেলা:</span><span>${getDistrict(districtCode)}</span></div>`;
-        html += `<div class="info-row"><span class="label">📅 জন্মসাল:</span><span>${year}</span></div>`;
-        html += `<div class="info-row"><span class="label">🎂 আনুমানিক বয়স:</span><span>${age} বছর</span></div>`;
-      } 
-      else if (nid.length === 13) {
-        districtCode = nid.substring(0, 2);
-        html += `<div class="info-row"><span class="label">📄 NID টাইপ:</span><span>পুরাতন 13 ডিজিট NID</span></div>`;
-        html += `<div class="info-row"><span class="label">📍 জেলা:</span><span>${getDistrict(districtCode)}</span></div>`;
-        html += `<div class="info-row"><span class="label">📅 জন্মসাল:</span><span>এই NID থেকে বের করা যায় না</span></div>`;
-      }
-      else if (nid.length === 10) {
-        districtCode = nid.substring(0, 2);
-        html += `<div class="info-row"><span class="label">📄 NID টাইপ:</span><span>পুরাতন লেমিনেটেড NID</span></div>`;
-        html += `<div class="info-row"><span class="label">📍 জেলা:</span><span>${getDistrict(districtCode)}</span></div>`;
-        html += `<div class="info-row"><span class="label">📅 জন্মসাল:</span><span>এই NID থেকে বের করা যায় না</span></div>`;
-      }
-      else {
-        errorDiv.textContent = 'NID নম্বর 10, 13 বা 17 ডিজিটের হতে হবে';
-        errorDiv.style.display = 'block';
-        return;
-      }
-      
-      resultDiv.innerHTML = html;
-      resultDiv.style.display = 'block';
-    }
-  </script>
+        function checkNID() {
+            const nid = document.getElementById('nidInput').value.trim();
+            const resultDiv = document.getElementById('result');
+            const errorDiv = document.getElementById('error');
+
+            resultDiv.style.display = 'none';
+            errorDiv.style.display = 'none';
+
+            if (!/^\d+$/.test(nid)) {
+                errorDiv.textContent = 'শুধুমাত্র সংখ্যা দিন';
+                errorDiv.style.display = 'block';
+                return;
+            }
+
+            let html = '<div class="info-row"><span class="label">✅ ফরম্যাট:</span><span>সঠিক</span></div>';
+            let districtCode = '';
+
+            if (nid.length === 17) {
+                const year = nid.substring(0, 4);
+                districtCode = nid.substring(4, 6);
+                const currentYear = new Date().getFullYear();
+                const age = currentYear - parseInt(year);
+                html += '<div class="info-row"><span class="label">📄 NID টাইপ:</span><span>Smart NID Card</span></div>';
+                html += `<div class="info-row"><span class="label">📍 জেলা:</span><span>${getDistrict(districtCode, 17)}</span></div>`;
+                html += `<div class="info-row"><span class="label">📅 জন্মসাল:</span><span>${year}</span></div>`;
+                html += `<div class="info-row"><span class="label">👤 আনুমানিক বয়স:</span><span>${age} বছর</span></div>`;
+            }
+            else if (nid.length === 13) {
+                districtCode = nid.substring(0, 2);
+                html += '<div class="info-row"><span class="label">📄 NID টাইপ:</span><span>পুরাতন 13 ডিজিট</span></div>';
+                html += `<div class="info-row"><span class="label">📍 সম্ভাব্য জেলা:</span><span>${getDistrict(districtCode, 13)}</span></div>`;
+                html += '<div class="info-row"><span class="label">📅 জন্মসাল:</span><span>এই NID থেকে বের করা যায় না</span></div>';
+            }
+            else if (nid.length === 10) {
+                districtCode = nid.substring(0, 2);
+                html += '<div class="info-row"><span class="label">📄 NID টাইপ:</span><span>পুরাতন লেমিনেটেড</span></div>';
+                html += `<div class="info-row"><span class="label">📍 সম্ভাব্য জেলা:</span><span>${getDistrict(districtCode, 10)}</span></div>`;
+                html += '<div class="info-row"><span class="label">📅 জন্মসাল:</span><span>এই NID থেকে বের করা যায় না</span></div>';
+            }
+            else {
+                errorDiv.textContent = 'NID নম্বর 10, 13 বা 17 ডিজিটের হতে হবে';
+                errorDiv.style.display = 'block';
+                return;
+            }
+
+            resultDiv.innerHTML = html;
+            resultDiv.style.display = 'block';
+        }
+    </script>
 </body>
 </html>
