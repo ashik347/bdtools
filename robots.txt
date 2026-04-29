@@ -1,4 +1,3 @@
 User-agent: *
 Allow: /
-
-Sitemap: https://ashik347.github.io/bdtools/sitemap.xml
+Sitemap: https://bdtoolspro.netlify.app/sitemap.xml
