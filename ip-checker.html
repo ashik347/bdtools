@@ -1,92 +1,96 @@
 <!DOCTYPE html>
 <html lang="bn">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IP চেকার - BDTools</title>
-    <style>
-        body { font-family: 'SolaimanLipi', Arial, sans-serif; background: #f5f5f5; padding: 20px; margin: 0; }
-       .container { max-width: 600px; margin: auto; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-        h1 { color: #006a4e; text-align: center; margin-bottom: 25px; }
-       .loading { text-align: center; color: #666; padding: 40px 0; }
-       .spinner { border: 3px solid #f3f3f3; border-top: 3px solid #006a4e; border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; margin: 0 auto 15px; }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-       .info-card { background: #f8f9fa; padding: 20px; border-radius: 10px; margin: 15px 0; }
-       .info-row { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #e9ecef; }
-       .info-row:last-child { border-bottom: none; }
-       .label { font-weight: bold; color: #006a4e; }
-       .value { color: #333; text-align: right; }
-       .ip-address { font-size: 24px; font-weight: bold; color: #006a4e; text-align: center; padding: 15px; background: #e8f5e9; border-radius: 8px; margin: 15px 0; font-family: monospace; }
-        button { background: #006a4e; color: white; border: none; padding: 12px 24px; border-radius: 8px; font-size: 16px; cursor: pointer; width: 100%; font-weight: bold; }
-        button:hover { background: #005540; }
-       .error { background: #f8d7da; color: #721c24; padding: 15px; border-radius: 8px; text-align: center; }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IP চেকার - BDTools</title>
+  <style>
+    body { font-family: 'SolaimanLipi', Arial, sans-serif; background: #f5f5f5; padding: 20px; margin: 0; }
+    .container { max-width: 600px; margin: auto; background: white; padding: 30px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+    h1 { color: #006a4e; text-align: center; margin-bottom: 25px; }
+    .loading { text-align: center; color: #666; padding: 40px 0; }
+    .spinner { border: 3px solid #f3f3f3; border-top: 3px solid #006a4e; border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; margin: 0 auto 15px; }
+    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    .info-card { background: #f8f9fa; padding: 20px; border-radius: 10px; margin: 15px 0; }
+    .info-row { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #eee; }
+    .info-row:last-child { border-bottom: none; }
+    .label { font-weight: bold; color: #006a4e; }
+    .value { color: #333; text-align: right; }
+    .ip-address { font-size: 24px; font-weight: bold; color: #006a4e; text-align: center; margin: 20px 0; word-break: break-all; }
+    button { background: #006a4e; color: white; border: none; padding: 12px 24px; border-radius: 8px; cursor: pointer; width: 100%; font-size:16px; }
+    button:hover { background: #005540; }
+    .error { background: #f8d7da; color: #721c24; padding: 15px; border-radius: 8px; margin: 15px 0; text-align:center; }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <h1>🌐 আপনার IP তথ্য</h1>
-        
-        <div id="loading" class="loading">
-            <div class="spinner"></div>
-            <p>IP তথ্য লোড হচ্ছে...</p>
-        </div>
+  <div class="container">
+    <h1>🌐 আপনার IP তথ্য</h1>
 
-        <div id="content" style="display: none;">
-            <div class="ip-address" id="ip"></div>
-            
-            <div class="info-card">
-                <div class="info-row">
-                    <span class="label">📍 লোকেশন:</span>
-                    <span class="value" id="location">-</span>
-                </div>
-                <div class="info-row">
-                    <span class="label">🏢 ISP:</span>
-                    <span class="value" id="isp">-</span>
-                </div>
-                <div class="info-row">
-                    <span class="label">🏙️ শহর:</span>
-                    <span class="value" id="city">-</span>
-                </div>
-                <div class="info-row">
-                    <span class="label">🌍 দেশ:</span>
-                    <span class="value" id="country">-</span>
-                </div>
-                <div class="info-row">
-                    <span class="label">⏰ টাইমজোন:</span>
-                    <span class="value" id="timezone">-</span>
-                </div>
-            </div>
-
-            <button onclick="location.reload()">🔄 রিফ্রেশ করুন</button>
-        </div>
-
-        <div id="error" class="error" style="display: none;">
-            IP তথ্য লোড করতে সমস্যা হয়েছে। পেজ রিফ্রেশ করুন।
-        </div>
+    <div id="loading" class="loading">
+      <div class="spinner"></div>
+      <p>IP তথ্য লোড হচ্ছে...</p>
     </div>
 
-    <script>
-        async function getIPInfo() {
-            try {
-                const res = await fetch('https://ipapi.co/json/');
-                const data = await res.json();
-                
-                document.getElementById('ip').textContent = data.ip || 'N/A';
-                document.getElementById('location').textContent = `${data.city}, ${data.region}` || 'N/A';
-                document.getElementById('isp').textContent = data.org || 'N/A';
-                document.getElementById('city').textContent = data.city || 'N/A';
-                document.getElementById('country').textContent = data.country_name || 'N/A';
-                document.getElementById('timezone').textContent = data.timezone || 'N/A';
-                
-                document.getElementById('loading').style.display = 'none';
-                document.getElementById('content').style.display = 'block';
-            } catch (err) {
-                document.getElementById('loading').style.display = 'none';
-                document.getElementById('error').style.display = 'block';
-            }
-        }
+    <div id="content" style="display: none;">
+      <div class="ip-address" id="ip"></div>
+
+      <div class="info-card">
+        <div class="info-row">
+          <span class="label">📍 লোকেশন:</span>
+          <span class="value" id="location">--</span>
+        </div>
+        <div class="info-row">
+          <span class="label">🗂️ ISP:</span>
+          <span class="value" id="isp">--</span>
+        </div>
+        <div class="info-row">
+          <span class="label">🏙️ শহর:</span>
+          <span class="value" id="city">--</span>
+        </div>
+        <div class="info-row">
+          <span class="label">🌍 দেশ:</span>
+          <span class="value" id="country">--</span>
+        </div>
+        <div class="info-row">
+          <span class="label">⏰ টাইমজোন:</span>
+          <span class="value" id="timezone">--</span>
+        </div>
+      </div>
+
+      <button onclick="location.reload()">🔄 রিফ্রেশ করুন</button>
+    </div>
+
+    <div id="error" class="error" style="display: none;">
+      IP তথ্য লোড করতে সমস্যা হয়েছে। নেট চেক করে পেজ রিফ্রেশ করুন।
+    </div>
+  </div>
+
+  <script>
+    async function loadIPInfo() {
+      try {
+        // এই API ব্লক খায় না + ফ্রি
+        const res1 = await fetch('https://api.ipify.org?format=json');
+        const ipData = await res1.json();
+        const ip = ipData.ip;
         
-        getIPInfo();
-    </script>
+        const res2 = await fetch(`https://ipapi.co/${ip}/json/`);
+        const data = await res2.json();
+
+        document.getElementById('ip').textContent = ip;
+        document.getElementById('location').textContent = `${data.city}, ${data.region}`;
+        document.getElementById('isp').textContent = data.org || 'N/A';
+        document.getElementById('city').textContent = data.city || 'N/A';
+        document.getElementById('country').textContent = data.country_name || 'N/A';
+        document.getElementById('timezone').textContent = data.timezone || 'N/A';
+
+        document.getElementById('loading').style.display = 'none';
+        document.getElementById('content').style.display = 'block';
+      } catch (error) {
+        document.getElementById('loading').style.display = 'none';
+        document.getElementById('error').style.display = 'block';
+      }
+    }
+    loadIPInfo();
+  </script>
 </body>
 </html>
