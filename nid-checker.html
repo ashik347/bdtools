@@ -5,24 +5,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NID যাচাই করুন</title>
     <style>
-        body { font-family: 'SolaimanLipi', Arial, sans-serif; max-width: 600px; margin: 20px auto; padding: 20px; background: #f5f5f5; }
-       .container { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
-        h1 { text-align: center; color: #006a4e; }
+        body { font-family: 'SolaimanLipi', 'Hind Siliguri', Arial, sans-serif; max-width: 600px; margin: 20px auto; padding: 20px; background: #f5f5f5; }
+      .container { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        h1 { text-align: center; color: #006a4e; margin-bottom: 10px; }
+        p.subtitle { text-align:center; color:#666; margin-top: 0; margin-bottom: 20px; }
         input { width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-size: 16px; box-sizing: border-box; }
         button { background: #006a4e; color: white; border: none; padding: 12px 24px; border-radius: 8px; cursor: pointer; width: 100%; font-size: 16px; margin-top: 10px; }
         button:hover { background: #005540; }
-       .result { background: #e8f5e9; padding: 20px; border-radius: 10px; margin: 20px 0; display: none; }
-       .info-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #ddd; }
-       .info-row:last-child { border-bottom: none; }
-       .label { font-weight: bold; color: #006a4e; }
-       .error { background: #ffebee; color: #c62828; padding: 15px; border-radius: 8px; margin: 10px 0; display: none; }
-       .note { background:#fff3cd; color:#856404; padding:15px; border-radius:8px; font-size:14px; margin-top: 20px; }
+      .result { background: #e8f5e9; padding: 20px; border-radius: 10px; margin: 20px 0; display: none; }
+      .info-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #ddd; }
+      .info-row:last-child { border-bottom: none; }
+      .label { font-weight: bold; color: #006a4e; }
+      .error { background: #ffebee; color: #c62828; padding: 15px; border-radius: 8px; margin: 10px 0; display: none; }
+      .note { background:#fff3cd; color:#856404; padding:15px; border-radius:8px; font-size:14px; margin-top: 20px; }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>🇧🇩 NID যাচাই করুন</h1>
-        <p style="text-align:center; color:#666;">10, 13 বা 17 ডিজিটের NID নম্বর দিয়ে তথ্য যাচাই করুন</p>
+        <p class="subtitle">10, 13 বা 17 ডিজিটের NID নম্বর দিয়ে তথ্য যাচাই করুন</p>
 
         <input type="text" id="nidInput" placeholder="NID নম্বর লিখুন" maxlength="17">
         <button onclick="checkNID()">যাচাই করুন</button>
@@ -31,12 +32,11 @@
         <div id="error" class="error"></div>
 
         <div class="note">
-            <b>⚠️ গুরুত্বপূর্ণ:</b> এই টুল শুধুমাত্র NID নম্বরের ফরম্যাট যাচাই করে। 13 ডিজিটের পুরাতন NID তে জেলা কোড ওভারল্যাপ থাকায় ফলাফল 100% সঠিক নাও হতে পারে। এটি নির্বাচন কমিশনের ডাটাবেজের সাথে যুক্ত নয়।
+            <b>⚠️ গুরুত্বপূর্ণ:</b> এই টুল শুধুমাত্র NID নম্বরের ফরম্যাট যাচাই করে। 13 ডিজিটের পুরাতন NID তে জেলা কোড ওভারল্যাপ থাকায় ফলাফল 100% সঠিক নাও হতে পারে। এটি নির্বাচন কমিশনের ডাটাবেজের সাথে যুক্ত নয়।
         </div>
     </div>
 
     <script>
-        // জেলা কোড লিস্ট - 64 জেলা
         const districts = {
             '01': 'বান্দরবান', '02': 'বরগুনা', '03': 'বগুড়া', '04': 'ব্রাহ্মণবাড়িয়া', '05': 'বাগেরহাট',
             '06': 'বরিশাল', '07': 'ভোলা', '08': 'চাঁদপুর', '09': 'চট্টগ্রাম', '10': 'চুয়াডাঙ্গা',
@@ -53,14 +53,19 @@
             '61': 'সুনামগঞ্জ', '62': 'সিলেট', '63': 'টাঙ্গাইল', '64': 'ঠাকুরগাঁও'
         };
 
-        // ওভারল্যাপ জেলা হ্যান্ডেল করার জন্য
         function getDistrict(code, nidLength) {
-            // 13 ডিজিট পুরাতন NID এর জন্য স্পেশাল কেস
+            // 13 ডিজিট পুরাতন NID এর জন্য স্পেশাল কেস - ওভারল্যাপ হ্যান্ডেল
             if(nidLength === 13) {
                 if(code === '46') return 'শেরপুর অথবা নেত্রকোনা';
                 if(code === '39') return 'জামালপুর/ময়মনসিংহ/শেরপুর';
                 if(code === '21') return 'জামালপুর/শেরপুর';
                 if(code === '59') return 'শেরপুর';
+            }
+            // 10 ডিজিটের জন্যও সেইম লজিক
+            if(nidLength === 10) {
+                if(code === '46') return 'শেরপুর অথবা নেত্রকোনা';
+                if(code === '39') return 'জামালপুর/ময়মনসিংহ/শেরপুর';
+                if(code === '21') return 'জামালপুর/শেরপুর';
             }
             // 17 ডিজিট Smart NID এর জন্য একুরেট
             return districts[code] || 'অজানা জেলা';
