@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>IP চেকার - BDTools</title>
+  <title>IP + GPS Location - BDTools</title>
   <style>
     body { font-family: 'SolaimanLipi', Arial, sans-serif; background: #f5f5f5; padding: 20px; margin: 0; }
     .container { max-width: 600px; margin: auto; background: white; padding: 30px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
@@ -17,18 +17,19 @@
     .label { font-weight: bold; color: #006a4e; }
     .value { color: #333; text-align: right; }
     .ip-address { font-size: 24px; font-weight: bold; color: #006a4e; text-align: center; margin: 20px 0; word-break: break-all; }
-    button { background: #006a4e; color: white; border: none; padding: 12px 24px; border-radius: 8px; cursor: pointer; width: 100%; font-size:16px; }
+    button { background: #006a4e; color: white; border: none; padding: 12px 24px; border-radius: 8px; cursor: pointer; width: 100%; font-size:16px; margin:5px 0; }
     button:hover { background: #005540; }
     .error { background: #f8d7da; color: #721c24; padding: 15px; border-radius: 8px; margin: 15px 0; text-align:center; }
+    .note { background:#fff3cd; color:#856404; padding:10px; border-radius:8px; font-size:14px; margin-top:15px; }
   </style>
 </head>
 <body>
   <div class="container">
-    <h1>🌐 আপনার IP তথ্য</h1>
+    <h1>🌐 আপনার IP + লোকেশন তথ্য</h1>
 
     <div id="loading" class="loading">
       <div class="spinner"></div>
-      <p>IP তথ্য লোড হচ্ছে...</p>
+      <p>তথ্য লোড হচ্ছে...</p>
     </div>
 
     <div id="content" style="display: none;">
@@ -36,39 +37,39 @@
 
       <div class="info-card">
         <div class="info-row">
-          <span class="label">📍 লোকেশন:</span>
-          <span class="value" id="location">--</span>
+          <span class="label">📍 IP লোকেশন:</span>
+          <span class="value" id="ipLocation">--</span>
+        </div>
+        <div class="info-row">
+          <span class="label">📌 GPS লোকেশন:</span>
+          <span class="value" id="gpsLocation">--</span>
         </div>
         <div class="info-row">
           <span class="label">🗂️ ISP:</span>
           <span class="value" id="isp">--</span>
         </div>
         <div class="info-row">
-          <span class="label">🏙️ শহর:</span>
-          <span class="value" id="city">--</span>
-        </div>
-        <div class="info-row">
           <span class="label">🌍 দেশ:</span>
           <span class="value" id="country">--</span>
         </div>
-        <div class="info-row">
-          <span class="label">⏰ টাইমজোন:</span>
-          <span class="value" id="timezone">--</span>
-        </div>
       </div>
 
+      <button onclick="getGPS()">📍 আমার আসল লোকেশন দেখান</button>
       <button onclick="location.reload()">🔄 রিফ্রেশ করুন</button>
+      
+      <div class="note">
+        <b>Note:</b> IP লোকেশন ISP এর সার্ভারের ঠিকানা দেখায়। আসল লোকেশনের জন্য "আমার আসল লোকেশন" বাটনে ক্লিক করে GPS Allow করুন।
+      </div>
     </div>
 
     <div id="error" class="error" style="display: none;">
-      IP তথ্য লোড করতে সমস্যা হয়েছে। নেট চেক করে পেজ রিফ্রেশ করুন।
+      তথ্য লোড করতে সমস্যা হয়েছে।
     </div>
   </div>
 
   <script>
     async function loadIPInfo() {
       try {
-        // এই API ব্লক খায় না + ফ্রি
         const res1 = await fetch('https://api.ipify.org?format=json');
         const ipData = await res1.json();
         const ip = ipData.ip;
@@ -77,11 +78,9 @@
         const data = await res2.json();
 
         document.getElementById('ip').textContent = ip;
-        document.getElementById('location').textContent = `${data.city}, ${data.region}`;
+        document.getElementById('ipLocation').textContent = `${data.city}, ${data.region}`;
         document.getElementById('isp').textContent = data.org || 'N/A';
-        document.getElementById('city').textContent = data.city || 'N/A';
         document.getElementById('country').textContent = data.country_name || 'N/A';
-        document.getElementById('timezone').textContent = data.timezone || 'N/A';
 
         document.getElementById('loading').style.display = 'none';
         document.getElementById('content').style.display = 'block';
@@ -90,6 +89,25 @@
         document.getElementById('error').style.display = 'block';
       }
     }
+
+    function getGPS() {
+      if (navigator.geolocation) {
+        document.getElementById('gpsLocation').textContent = 'লোড হচ্ছে...';
+        navigator.geolocation.getCurrentPosition(async (pos) => {
+          const lat = pos.coords.latitude;
+          const lon = pos.coords.longitude;
+          // OpenStreetMap দিয়ে লোকেশনের নাম বের করি
+          const res = await fetch(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json`);
+          const data = await res.json();
+          document.getElementById('gpsLocation').textContent = data.address.city || data.address.town || data.address.village || 'ময়মনসিংহ';
+        }, () => {
+          document.getElementById('gpsLocation').textContent = 'Permission দেন নাই';
+        });
+      } else {
+        document.getElementById('gpsLocation').textContent = 'GPS সাপোর্ট করে না';
+      }
+    }
+    
     loadIPInfo();
   </script>
 </body>
