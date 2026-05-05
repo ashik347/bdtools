@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - BD Tools</title>
+    <meta name="description" content="BD Tools এর সাথে যোগাযোগ করুন। আপনার মতামত, প্রশ্ন বা সাহায্যের জন্য আমাদের মেইল করুন।">
+    <style>
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body { 
+            font-family: 'SolaimanLipi', Arial, sans-serif; 
+            background:#f8f9fa; 
+            color:#333;
+            line-height:1.6;
+        }
+        .container { 
+            max-width:900px; 
+            margin:40px auto; 
+            background:white; 
+            padding:40px; 
+            border-radius:12px; 
+            box-shadow:0 2px 15px rgba(0,0,0,0.08);
+        }
+        h1 { 
+            color:#006a4e; 
+            text-align:center; 
+            margin-bottom:15px;
+            font-size:32px;
+        }
+        .subtitle {
+            text-align:center;
+            color:#666;
+            margin-bottom:40px;
+            font-size:17px;
+        }
+        .contact-grid {
+            display:grid;
+            grid-template-columns:1fr 1fr;
+            gap:30px;
+            margin-top:30px;
+        }
+        .contact-box {
+            background:#f8f9fa;
+            padding:30px;
+            border-radius:10px;
+            border-left:4px solid #006a4e;
+        }
+        .contact-box h2 {
+            color:#006a4e;
+            font-size:20px;
+            margin-bottom:15px;
+        }
+        .contact-box p {
+            margin:10px 0;
+            font-size:16px;
+        }
+        .icon {
+            font-size:24px;
+            margin-right:10px;
+        }
+        .form-box h2 {
+            color:#006a4e;
+            font-size:20px;
+            margin-bottom:20px;
+        }
+        input, textarea {
+            width:100%;
+            padding:12px;
+            margin-bottom:15px;
+            border:1px solid #ddd;
+            border-radius:6px;
+            font-family:inherit;
+            font-size:15px;
+        }
+        input:focus, textarea:focus {
+            outline:none;
+            border-color:#006a4e;
+        }
+        textarea {
+            resize:vertical;
+            min-height:120px;
+        }
+        .btn {
+            background:#006a4e;
+            color:white;
+            padding:12px 30px;
+            border:none;
+            border-radius:6px;
+            font-size:16px;
+            cursor:pointer;
+            font-weight:bold;
+        }
+        .btn:hover {
+            background:#005540;
+        }
+        .note {
+            background:#fff3cd;
+            border-left:4px solid #ffc107;
+            padding:15px;
+            margin-top:30px;
+            border-radius:6px;
+            font-size:15px;
+        }
+        @media(max-width:768px){
+            .contact-grid { grid-template-columns:1fr; }
+            .container { padding:25px; margin:20px; }
+        }
+    </style>
+</head>
+<body>
+<nav style="background:#f8f9fa; padding:12px; text-align:center; border-bottom:1px solid #ddd;">
+    <a href="index.html" style="text-decoration:none; color:#198754; font-weight:bold; margin:0 10px;">🏠 হোম</a>
+    <a href="age-calculator.html" style="text-decoration:none; color:#333; margin:0 10px;">বয়স ক্যালকুলেটর</a>
+    <a href="bmi-calculator.html" style="text-decoration:none; color:#333; margin:0 10px;">BMI</a>
+    <a href="nid-checker.html" style="text-decoration:none; color:#333; margin:0 10px;">NID চেক</a>
+    <a href="birth-certificate.html" style="text-decoration:none; color:#333; margin:0 10px;">জন্ম নিবন্ধন</a>
+</nav>
+
+<div class="container">
+    <h1>যোগাযোগ করুন</h1>
+    <p class="subtitle">আপনার মতামত আমাদের কাছে গুরুত্বপূর্ণ। যেকোনো প্রশ্ন বা সাহায্যের জন্য মেসেজ করুন।</p>
+
+    <div class="contact-grid">
+        <div class="contact-box">
+            <h2>সরাসরি যোগাযোগ</h2>
+            <p><span class="icon">📧</span><b>Email:</b> ashikrahman2590@gmail.com</p>
+            <p><span class="icon">📍</span><b>Location:</b> Mymensingh, Bangladesh</p>
+            <p><span class="icon">⏰</span><b>Response Time:</b> 24-48 ঘন্টা</p>
+            
+            <div class="note">
+                <b>বিঃদ্রঃ</b> NID বা জন্ম নিবন্ধনের আসল তথ্যের জন্য সরকারি ওয়েবসাইট ব্যবহার করুন। আমরা শুধু ফরম্যাট চেক করি।
+            </div>
+        </div>
+
+        <div class="form-box">
+            <h2>মেসেজ পাঠান</h2>
+            <form action="mailto:ashikrahman2590@gmail.com" method="post" enctype="text/plain">
+                <input type="text" name="name" placeholder="আপনার নাম" required>
+                <input type="email" name="email" placeholder="আপনার ইমেইল" required>
+                <input type="text" name="subject" placeholder="বিষয়" required>
+                <textarea name="message" placeholder="আপনার মেসেজ লিখুন..." required></textarea>
+                <button type="submit" class="btn">মেসেজ পাঠান</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<footer style="text-align:center; padding:20px; margin-top:40px; border-top:1px solid #ddd; font-size:14px; background:white;">
+    <a href="index.html" style="text-decoration:none; color:#333; margin:0 8px;">হোম</a> | 
+    <a href="about.html" style="text-decoration:none; color:#333; margin:0 8px;">About</a> | 
+    <a href="privacy.html" style="text-decoration:none; color:#333; margin:0 8px;">Privacy Policy</a> | 
+    <a href="terms.html" style="text-decoration:none; color:#333; margin:0 8px;">Terms</a> | 
+    <a href="contact.html" style="text-decoration:none; color:#333; margin:0 8px;">Contact</a>
+    <p style="margin-top:10px; color:#666;">© 2026 BD Tools. All rights reserved.</p>
+</footer>
+</body>
+</html>
